@@ -27,4 +27,11 @@ const serverFetch = {
     serverFetchHelper(endpoint, { ...options, method: "DELETE" }),
 };
 
+// const response = await serverFetch.get("/models");
+
+// console.log("STATUS:", response.status);
+
+// const json = await response.json();
+// console.log("JSON:", json);
+
 export default serverFetch;
