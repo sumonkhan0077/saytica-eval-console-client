@@ -27,7 +27,7 @@ const serverFetch = {
     serverFetchHelper(endpoint, { ...options, method: "DELETE" }),
 };
 
-// const response = await serverFetch.get("/models");
+// const response = await serverFetch.get("/tasks");
 
 // console.log("STATUS:", response.status);
 

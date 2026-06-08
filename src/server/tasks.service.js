@@ -3,16 +3,22 @@
 import serverFetch from "@/utils/server-fetch";
 
 export const getTasks = async () => {
-  try {
+ try {
     const response = await serverFetch.get("/tasks");
+
     const json = await response.json();
+
     return {
       success: true,
-      data: json.data ?? json,
+      data: json.data ?? json,   //  important fix
       message: json.message || "",
     };
   } catch (error) {
-    return { success: false, data: [], message: error.message };
+    return {
+      success: false,
+      data: [],
+      message: error.message,
+    };
   }
 };
 
