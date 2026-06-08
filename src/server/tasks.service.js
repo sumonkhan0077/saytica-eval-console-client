@@ -24,13 +24,21 @@ export const getTasks = async () => {
 
 export const updateTaskStatus = async (id, status) => {
   try {
+    
     const response = await serverFetch.patch(`/tasks/${id}`, {
-      body: JSON.stringify({ status }),
+      method: "PATCH", 
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ status: status }), 
     });
+
     const json = await response.json();
+    
+   
     return {
       success: true,
-      data: json.data ?? json,
+      data: json.result ?? json,
       message: json.message || "",
     };
   } catch (error) {

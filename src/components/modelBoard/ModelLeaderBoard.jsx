@@ -61,11 +61,11 @@ export default function ModelLeaderBoard({ initialTasks = [] }) {
     );
   };
 
-  // ✅ অল-কলাম সর্টিং ফিক্সড সংস্করণ
+
   const data = useMemo(() => {
     let rows = [...initialTasks];
 
-    // সার্চ ফিল্টার
+   
     if (search) {
       rows = rows.filter(
         (r) =>
@@ -74,33 +74,33 @@ export default function ModelLeaderBoard({ initialTasks = [] }) {
       );
     }
 
-    // প্রোভাইডার ফিল্টার
+    
     if (provider !== "All Providers") {
       rows = rows.filter((r) => r.provider === provider);
     }
 
-    // মডেল টাইপ ফিল্টার
+  
     if (modelType !== "All Models") {
       rows = rows.filter((r) => r.name?.includes(modelType));
     }
 
-    // ডাইনামিক সর্টিং (নাম্বার এবং স্ট্রিং দুইটার জন্যই)
+   
     rows.sort((a, b) => {
       let av = a[sort.key];
       let bv = b[sort.key];
 
-      // নাল বা আনডিফাইন্ড ভ্যালু হ্যান্ডলিং (খালি ঘর নিচে পাঠাতে)
+    
       if (av === null || av === undefined) return sort.dir === "asc" ? 1 : -1;
       if (bv === null || bv === undefined) return sort.dir === "asc" ? -1 : 1;
 
-      // যদি ভ্যালু স্ট্রিং (লেখা) হয়, যেমন: name, provider, evaluatedAt
+    
       if (typeof av === "string" && typeof bv === "string") {
         return sort.dir === "asc"
           ? av.localeCompare(bv)
           : bv.localeCompare(av);
       }
 
-      // যদি ভ্যালু নাম্বার (সংখ্যা) হয়, যেমন: accuracy, latencyMs, costPer1k
+     
       return sort.dir === "asc" ? av - bv : bv - av;
     });
 
