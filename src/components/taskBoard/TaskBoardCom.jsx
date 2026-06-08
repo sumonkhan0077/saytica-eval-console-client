@@ -17,7 +17,6 @@ const statusStyle = {
   "done": "bg-emerald-100 text-emerald-700 border border-emerald-200",
 };
 
-// ডাটাবেজের সাথে মিল রেখে ভ্যালু এবং দেখানোর জন্য লেবেল অবজেক্ট
 const statusOptions = [
   { value: "pending", label: "Pending" },
   { value: "in_progress", label: "In Progress" },
@@ -25,7 +24,7 @@ const statusOptions = [
 ];
 
 function StatusBadge({ value, editable, onChange }) {
-  // ডাটাবেজ থেকে যদি ভ্যালু বড় হাতের আসে, সেটিকে ছোট হাতের করে নেওয়া হলো
+
   const safeValue = value?.toLowerCase() || "pending";
 
   if (!editable) {
@@ -51,7 +50,7 @@ function StatusBadge({ value, editable, onChange }) {
         ))}
       </select>
       
-      {/* কাস্টম ড্রপডাউন অ্যারো আইকন */}
+      
       <span className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none flex items-center">
         <svg 
           className={`w-3 h-3 ${
@@ -76,20 +75,22 @@ export default function TaskBoardCom({ initialTasks }) {
   const [tasks, setTasks] = useState(initialTasks || []);
 
   const updateStatus = async (id, status) => {
-    // ১. অপটিমিস্টিক আপডেট (ইউজার ইন্টারফেস সাথে সাথে চেঞ্জ হবে)
+    // Capture current state for rollback if needed
+    const previousTasks = tasks;
+
+    // Optimistic update
     setTasks((prev) =>
       prev.map((task) =>
         task._id === id ? { ...task, status } : task
       )
     );
 
-    // ২. ব্যাকেন্ডে হিট করা
     const res = await updateTaskStatus(id, status);
-    
-    // ব্যাকেন্ড সফল না হলে আগের স্টেট ফিরিয়ে আনা
+
     if (!res?.success) {
-      alert("Failed to update status in backend: " + (res?.message || "Unknown error"));
-      setTasks(initialTasks); 
+      // Rollback to the actual previous state, not stale initialTasks
+      setTasks(previousTasks);
+      alert("Failed to update status: " + (res?.message || "Unknown error"));
     }
   };
 

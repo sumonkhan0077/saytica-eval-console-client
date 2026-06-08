@@ -2,7 +2,7 @@
 
 Frontend for the Saytica Eval Console take-home task. Built with Next.js 16, React 19, and Tailwind CSS v4.
 
-**Live demo:** [saytica-eval-console-backend.vercel.app](https://saytica-eval-console-backend.vercel.app)
+**Live demo:** https://saytica-eval-console-client.vercel.app/
 
 ---
 
